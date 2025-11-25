@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+	
+	"context"
 
 	"crowdreview/config"
 	"crowdreview/internal/handlers"
@@ -9,6 +11,7 @@ import (
 	"crowdreview/internal/repository"
 	"crowdreview/internal/services"
 	"crowdreview/internal/validation"
+
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -70,13 +73,14 @@ func connectDB(url string) (*gorm.DB, error) {
 }
 
 func connectRedis(url string) (*redis.Client, error) {
-	opts, err := redis.ParseURL(url)
-	if err != nil {
-		return nil, err
-	}
-	client := redis.NewClient(opts)
-	if err := client.Ping(client.Context()).Err(); err != nil {
-		return nil, err
-	}
-	return client, nil
+    opts, err := redis.ParseURL(url)
+    if err != nil {
+        return nil, err
+    }
+    client := redis.NewClient(opts)
+    ctx := context.Background()
+    if err := client.Ping(ctx).Err(); err != nil {
+        return nil, err
+    }
+    return client, nil
 }

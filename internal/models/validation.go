@@ -13,7 +13,7 @@ type ReviewValidationResult struct {
 	Score    float64   `gorm:"index"` // 0-100 confidence
 	Outcome  string    `gorm:"type:varchar(30)"`
 	Checks   datatypes.JSONMap `gorm:"type:jsonb;default:'{}'::jsonb"`
-	Signals  []FraudSignal
+	Signals []FraudSignal `gorm:"foreignKey:ValidationResultID;constraint:OnDelete:CASCADE"`
 }
 
 // FraudSignal captures individual rule hits.

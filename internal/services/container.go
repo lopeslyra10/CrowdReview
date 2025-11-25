@@ -4,15 +4,16 @@ import (
 	"crowdreview/config"
 	"crowdreview/internal/repository"
 	"crowdreview/internal/validation"
+
 	"github.com/redis/go-redis/v9"
 )
 
 // Services aggregates service layer dependencies.
 type Services struct {
-	Auth   AuthService
+	Auth    AuthService
 	Company CompanyService
-	Review ReviewService
-	Admin  AdminService
+	Review  ReviewService
+	Admin   AdminService
 }
 
 // NewServices wires concrete service implementations.

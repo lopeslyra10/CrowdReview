@@ -4,6 +4,7 @@ import (
 	"crowdreview/config"
 	"crowdreview/internal/services"
 	"crowdreview/pkg/middleware"
+
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
 )
@@ -19,6 +20,7 @@ type RouterDeps struct {
 func SetupRouter(deps RouterDeps) *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Recovery())
+	r.Use(middleware.CORSMiddleware())
 	r.Use(middleware.RequestLogger())
 	if deps.Redis != nil {
 		r.Use(middleware.RateLimitMiddleware(deps.Redis, deps.Config))
